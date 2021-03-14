@@ -17,7 +17,7 @@ message HelloResponse {
 //обычно такие методы находятся в сервисе
 //Сервис - это логическое объединение нескольких Rpc-методов
 service GreetingService {
-  rpc greeting(HelloRequest) returns(HelloResponse); //наш rpc - принимает HelloRequest и вернет HelloResponse
+  rpc greeting(HelloRequest) returns(stream HelloResponse); //наш rpc - принимает HelloRequest и вернет HelloResponse
   //осталось сгенерировать Java файл из этого proto файла
   //для клиента используется этот же файл для генерации
   //после генерации будет два файла в которых будет вся реализация для обмена по сети
