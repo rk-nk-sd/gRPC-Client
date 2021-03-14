@@ -1,0 +1,40 @@
+syntax = "proto3";
+package com.example.grpc;
+
+//запрос от клиента
+message HelloRequest {
+  //Здесь описываем поля которые будут в запросе отправляться от клиента
+  string name = 1; // где 1 - это тег (ключ в Json - экономия размера передаваемого файла по сети)
+  repeated string hobbies = 2; //repeated - это тоже самое что и список (в данном случае строк)
+}
+
+//ответ сервера
+message HelloResponse {
+  string greeting = 1;
+}
+
+//RPC - метод реализация
+//обычно такие методы находятся в сервисе
+//Сервис - это логическое объединение нескольких Rpc-методов
+service GreetingService {
+  rpc greeting(HelloRequest) returns(HelloResponse); //наш rpc - принимает HelloRequest и вернет HelloResponse
+  //осталось сгенерировать Java файл из этого proto файла
+  //для клиента используется этот же файл для генерации
+  //после генерации будет два файла в которых будет вся реализация для обмена по сети
+  //расположение этих файлов target->generated-sources->protobuf
+  //grpc-java->...->GreetingServiceGrpc.java
+  //java->...->GreetingServiceOuterClass.java
+  //наша задача реализовать логику работы медота greeting - этого сервиса
+
+  /*
+  В файле GreetingServiceGrpc.java - находиться костяк для реализации нашего сервиса greeting
+  здесь находиться реализация работы с сетью, упаковка и распаковка данных
+  для реализации логики метода greeting - нам будет необходимо унаследоваться от этого файла
+
+  и второй класс GreetingServiceOuterClass.java - здесь находятся наши
+  HelloRequest и HelloResponse - которые необходимо будет импортировать в наш класс для реализации логики метода greeting
+  (в частности для передачи данных по сети)
+
+  Реализация логики медота greeting в файле GreetingServiceImpl.
+   */
+}
